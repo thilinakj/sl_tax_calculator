@@ -4,11 +4,16 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
+@OptIn(FlowPreview::class)
 class HomeViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
 
     val givenSalaryAmount: StateFlow<String> =
@@ -21,12 +26,21 @@ class HomeViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
     private val _calculatedTaxInfo = MutableStateFlow(listOf<TaxGroups>())
     val calculatedTaxInfo: Flow<List<TaxGroups>> get() = _calculatedTaxInfo
 
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            givenSalaryAmount.debounce(300).collectLatest {
+                calculateTax(it)
+            }
+        }
+    }
 
     fun onTaxChange(mGrossSalaryStr: String) {
         savedStateHandle[GIVEN_SALARY_AMOUNT] = mGrossSalaryStr ?: ""
+        //calculateTax()
     }
-    fun calculateTax() {
-        val mGrossSalary = givenSalaryAmount.value.toDoubleOrNull()
+    fun calculateTax(salaryText: String) {
+        val mGrossSalary = salaryText.toDoubleOrNull()
+        //val mGrossSalary = givenSalaryAmount.value.toDoubleOrNull()
         mGrossSalary?.takeIf { it>0 }?.also { grossSalary ->
             viewModelScope.launch(Dispatchers.IO) {
                 val salaryAmount : Double = grossSalary
