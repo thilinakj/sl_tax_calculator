@@ -30,7 +30,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -59,13 +59,11 @@ dependencies {
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.viewmodel.savedstate)
-    implementation (libs.kotlinx.coroutines.android)
-    implementation (libs.kotlinx.coroutines.core)
-    implementation (libs.androidx.runtime.livedata)  // or the latest version
-    implementation (libs.androidx.lifecycle.viewmodel.compose)  // or the latest version
-    implementation (libs.lifecycle.viewmodel.savedstate)
-
-
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.androidx.runtime.livedata) // or the latest version
+    implementation(libs.androidx.lifecycle.viewmodel.compose) // or the latest version
+    implementation(libs.lifecycle.viewmodel.savedstate)
 
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
@@ -73,9 +71,9 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
-    //implementation("androidx.compose.material3:material3-window-size-class:1.1.2")
+    // implementation("androidx.compose.material3:material3-window-size-class:1.1.2")
 
-
+    implementation ("com.github.thilinakj:ComposePieChartView:1.0.6")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
@@ -89,5 +87,5 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.47")
     kapt("com.google.dagger:hilt-android-compiler:2.47")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
-    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 }

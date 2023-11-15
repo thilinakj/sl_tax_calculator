@@ -14,18 +14,36 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.core.view.WindowCompat
-
+import io.tklabs.sl_tax_calc.R
+// On colors -> on top of color
 private val DarkColorScheme = darkColorScheme(
-    primary = Prime1,
-    secondary = Prime2,
-    tertiary = Variant1
+    primary = Prime,
+    onPrimary = White,
+    primaryContainer = YelloBgX,
+    onPrimaryContainer = Black,
+    secondary = Sec,
+    secondaryContainer = SecBg,
+    onSecondaryContainer = Black,
+    tertiary = Vari,
+    tertiaryContainer = VariBg,
+    onTertiaryContainer = Black
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = PrimeD1,
-    secondary = PrimeD2,
-    tertiary = VariantD1
+    primary = Prime,
+    onPrimary = White,
+    primaryContainer = YelloBgX,
+    onPrimaryContainer = Black,
+    secondary = Sec,
+    secondaryContainer = SecBg,
+    onSecondaryContainer = Black,
+    tertiary = Vari,
+    tertiaryContainer = VariBg,
+    onTertiaryContainer = Black
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -38,6 +56,8 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+
+
 @Composable
 fun MyApplicationTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -46,10 +66,10 @@ fun MyApplicationTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+        /*dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
+        }*/
 
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
@@ -58,7 +78,7 @@ fun MyApplicationTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
+            window.statusBarColor = colorScheme.primaryContainer.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }
